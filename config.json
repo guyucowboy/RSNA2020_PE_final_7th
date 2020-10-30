@@ -1,0 +1,13 @@
+{
+    "path":{
+        "data":"/workspace/hd/",
+        "tmp":"/workspace/hd/tmp/",
+        "features":"/workspace/nvme/features/",
+        "train":"/workspace/nvme/train/",
+        "models":"/workspace/hd/models/",
+        "output":"/workspace/hd/outputs/",
+        "test":"/workspace/nvme/test/"
+        },
+    "model_format":"{}_{}_v{}_s{}.pth",
+    "platform":"myserver"
+}
