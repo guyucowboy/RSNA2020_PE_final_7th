@@ -241,12 +241,6 @@ def find_cog(ar,p=0.15):
     c=(ar.max()-ar.min())*p+ar.min()
     return (ar.mean(),ar.std()) if (ar>c).sum()==0 else (ar[ar>c].mean(),ar[ar>c].std())
 
-# def read_image(image_path,images_file):
-#     with images_file.open(image_path) as zf:
-#             img_dicom=pydicom.read_file(io.BytesIO(zf.read()))
-#     img = img_dicom.pixel_array.astype(np.float)
-#     return img+float(img_dicom.RescaleIntercept)
-
 class Singleton(type):
     _instances = {}
     __singleton_lock = Lock()
@@ -257,38 +251,25 @@ class Singleton(type):
         return cls._instances[cls]
 
 
-# class ImageReader(object, metaclass=Singleton):
-#     def __init__(self,filepath):
-#         self.file_handler = zipfile.ZipFile(filepath, mode = 'r', allowZip64 = True)
-#         self.lock = Lock()
-#         self.k=0
-#     def __call__(self,filename):
-#         with self.lock:
-#             with self.file_handler.open(filename) as zf:
-#                 img_dicom=pydicom.read_file(io.BytesIO(zf.read()))
-#                 img = img_dicom.pixel_array.astype(np.float)+float(img_dicom.RescaleIntercept)
-#             return img
-
 class ImageReader():
-    def __init__(self,filepath,image_type='pkl'):
+    def __init__(self,filepath,image_type='pkl',return_pos=False):
         self.filepath = filepath
-        assert image_type in ['pkl','dicom'], f"image type must be 'jpg' or 'dicom' and not {image_type} "
+        assert image_type in ['pkl','dicom'], f"image type must be 'pkl' or 'dicom' and not {image_type} "
         self.image_type=image_type
+        self.return_pos=return_pos
     def __call__(self,filename):
         if self.image_type=='pkl':
             with gzip.open(self.filepath+filename,'rb') as zf:
                 img=pickle.load(zf).astype(np.float64)
         elif self.image_type=='dicom':
-            img_dicom = pydicom.read_file(self.filepath+filename)
             try:
+                img_dicom = pydicom.read_file(self.filepath+filename)
                 img = img_dicom.pixel_array.astype(np.float)+float(img_dicom.RescaleIntercept)
+                pos = img_dicom.InstanceNumber
             except Exception as e:
-                print (filename,e.message, e.args)
+                print (filename,e)
                 img = np.zeros((512,512),dtype=np.float)
-        else:
-            raise Exception("image type must be 'jpg' or 'dicom'")
-        return img
-
+        return (img , pos,) if self.return_pos else img
 
 
 class ImageDataset(Dataset):

@@ -264,13 +264,13 @@ class Singleton(type):
 #             return img
 
 class ImageReader():
-    def __init__(self,filepath,image_type='jpg',return_pos=False):
+    def __init__(self,filepath,image_type='pkl',return_pos=False):
         self.filepath = filepath
-        assert image_type in ['jpg','dicom'], f"image type must be 'jpg' or 'dicom' and not {image_type} "
+        assert image_type in ['pkl','dicom'], f"image type must be 'pkl' or 'dicom' and not {image_type} "
         self.image_type=image_type
         self.return_pos=return_pos
     def __call__(self,filename):
-        if self.image_type=='jpg':
+        if self.image_type=='pkl':
             with gzip.open(self.filepath+filename,'rb') as zf:
                 img=pickle.load(zf).astype(np.float64)
         elif self.image_type=='dicom':
@@ -282,6 +282,7 @@ class ImageReader():
                 print (filename,e)
                 img = np.zeros((512,512),dtype=np.float)
         return (img , pos,) if self.return_pos else img
+
 
 
 
