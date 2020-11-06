@@ -1,0 +1,10 @@
+.
+./exp
+./kaggle_kernels
+
+Directories for the data and models (not in this git), the names can be changed and reflected in config.json:
+/workspace/nvme
+/workspace/nvme/features
+/workspace/nvme/train
+/workspace/hd/models
+/workspace/hd
