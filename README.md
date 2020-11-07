@@ -126,3 +126,8 @@ Use Kaggle_kernels/rsna2020-inference-2nd-opinion.ipynb for inference
 This notebook was only tested on Kaggle, hence it is better to use [the notebook on Kaggle]( https://www.kaggle.com/yuval6967/rsna2020-inference-2nd-op-final) 
 
 You’ll need to create and upload a dataset with your trained models, Edit the 3th cell and follow this notebooks example.
+
+Full Models' waeights
+-------------------------- 
+The models' weights are loaded as public dataset on kaggle platform: [https://www.kaggle.com/yuval6967/rsna2020-models](https://www.kaggle.com/yuval6967/rsna2020-models)
+
