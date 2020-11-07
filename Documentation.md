@@ -215,8 +215,11 @@ The loss function for the base model used was weighted binary cross entropy, the
 
 The loss function for the transformer was the same as the competition’s metric.
 
+### Base model sampling
 
-#### Augmentation
+As most of the targets for the single CT slices are zeros, I tried different sampling methods. I ended up with a sampling function that emphasizes slices with positive targets or which are near the center of the series.
+
+### Augmentation
 
 
 #### Base model
